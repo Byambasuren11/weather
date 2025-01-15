@@ -3,52 +3,141 @@ import Right from "./icons/Right-Pine-Cone-Logo";
 import Left from "./icons/Left-Pine-Cone-Logo";
 import Ball from "./icons/Ball";
 import Ball2 from "./icons/Ball2";
-import countriesData from "./data";
+import moment from "moment";
+
+//import countriesData from "./data";
 //import './App.css'
 
 function App() {
-  const data = [countriesData];
-  console.log(data);
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
+  const [allCities, setAllCities] = useState([]);
+  const [weather, setWeather] = useState("Ulan Bator , Mongolia");
+  const [typeOfWeatherDay,setTypeOfWeatherDay]=useState("Sunny");
+  const [typeOfWeatherNight,setTypeOfWeatherNight]=useState("Clear")
+  const [celciusDay,setCelcuisDay]=useState("0");
+  const [celciusNight,setCelcuisNight]=useState("0")
+
+  const getCountries = async () => {
+    try {
+      const response = await fetch(
+        "https://countriesnow.space/api/v0.1/countries"
+      );
+      const result = await response.json();
+      console.log("kk", result);
+      const countries = result.data;
+
+      const countriesData = countries.flatMap((c) =>
+        c.cities.map((city) => `${city} , ${c.country}`)
+      );
+      setAllCities(countriesData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  
+  const weatherApiKey = "341c21a1a1764abcaab90621251501";
+  const getWeather = async () => {
+    try {
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${weather}`
+      );
+      const result = await response.json();
+      const gradusDay=result.forecast.forecastday[0].hour[10].temp_c;
+      const gradusNight=result.forecast.forecastday[0].hour[22].temp_c;
+      const WeatherDay=result.forecast.forecastday[0].hour[10].condition.text;
+      const WeatherNight=result.forecast.forecastday[0].hour[22].condition.text;
+      console.log("hoho", result);
+      setCelcuisDay(gradusDay);
+      setCelcuisNight(gradusNight);
+      setTypeOfWeatherDay(WeatherDay);
+      setTypeOfWeatherNight(WeatherNight);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
   const onChange = (event) => {
     setSearchValue(event.target.value);
   };
+
+
   useEffect(() => {
     if (searchValue === "") {
       setFilteredData([]);
     } else {
-      const filtered = data.filter((el) => el.includes(searchValue));
+      const filtered = allCities.filter((el) =>
+        el.toLowerCase().startsWith(searchValue.toLowerCase())
+      );
       setFilteredData(filtered);
     }
   }, [searchValue]);
 
+
+  useEffect(() => {
+    getCountries();
+    getWeather();
+  }, [weather]);
+
+
+  const handlaChangeCountry = (event) => {
+    console.log(event);
+    let citiesName = event;
+    setWeather(citiesName);
+  };
+
+
   return (
     <>
       <div className="flex justify-center items-start w-full h-screen bg-gray-800 relative">
-        <div className="flex justify-center border-black absolute w-24 h-10 z-10 flex-col top-20">
-          <input value={searchValue} onChange={onChange} />
-          {filteredData.map((el) => (
-            <p key={el}>{el}</p>
-          ))}
+        <div className="flex justify-center border-black absolute z-10 flex-col top-20">
+          <input
+            value={searchValue}
+            onChange={onChange}
+            className="h-14 w-64 rounded-md"
+          />
+          {filteredData
+            .map((el) => (
+              <p
+                onClick={() => handlaChangeCountry(el)}
+                key={el}
+                className="bg-white cursor-pointer"
+              >
+                {el}
+              </p>
+            ))
+            .slice(0, 5)}
         </div>
         <div className="flex justify-center items-center absolute left-0 w-1/2 h-screen bg-gray-100 relative ">
           <div className="absolute top-[150px] left-[150px]">
             <Ball2 />
           </div>
           <div className="w-1/2 h-3/5 bg-opacity-50 shadow-md rounded-md absolute z-10 backdrop-blur-sm p-10">
-            <div>city name</div>
-            <div>
+            <div>{moment().format("LL")}</div>
+            <h1 className="text-4xl">{weather}</h1>
+            <div className="flex justify-center">
               <img src="./public/icon.png" />
             </div>
+            <div className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
+              {celciusDay}
+            </div>
+            <div>{typeOfWeatherDay}</div>
           </div>
         </div>
         <div className="flex justify-center items-center absolute right-0 w-1/2 h-screen bg-gray-800 relative ">
           <div className="w-1/2 h-3/5 bg-opacity-50 shadow-md rounded-md absolute z-10 backdrop-blur-sm p-10">
-            <div>city name</div>
-            <div>
+            <div>{moment().format("LL")}</div>
+            <h1 className="text-4xl">{weather}</h1>
+            <div className="flex justify-center">
               <img src="./public/moon.png" />
             </div>
+            <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
+              {celciusNight}
+            </div>
+            <div>{typeOfWeatherNight}</div>
           </div>
           <div className="absolute bottom-[150px] right-[150px]">
             <Ball />
