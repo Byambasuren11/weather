@@ -107,6 +107,7 @@ function App() {
           />
           {filteredData
             .map((el) => (
+              <div>
               <p
                 onClick={() => handlaChangeCountry(el)}
                 key={el}
@@ -115,6 +116,7 @@ function App() {
                 <Location/>
                 {el}
               </p>
+              </div>
             ))
             .slice(0, 5)}
           </div>
