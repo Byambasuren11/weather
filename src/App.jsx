@@ -4,7 +4,8 @@ import Left from "./icons/Left-Pine-Cone-Logo";
 import Ball from "./icons/Ball";
 import Ball2 from "./icons/Ball2";
 import moment from "moment";
-
+import Location from "./icons/location";
+import Search from "./icons/Search";
 //import countriesData from "./data";
 //import './App.css'
 
@@ -93,23 +94,31 @@ function App() {
   return (
     <>
       <div className="flex justify-center items-start w-full h-screen bg-gray-800 relative">
-        <div className="flex justify-center border-black absolute z-10 flex-col top-20">
+        <div className="flex justify-center border-black absolute z-10 flex-col top-10">
+          <div className="relative flex justify-center">
+          <div className="absolute left-[-160px] z-10 top-4">
+          <Search/>
+          </div>
+          <div className="absolute ">
           <input
             value={searchValue}
             onChange={onChange}
-            className="h-14 w-64 rounded-md"
+            className="h-20 w-[350px] rounded-[45px] py-[10px] px-[70px] text-3xl mb-[20px]"
           />
           {filteredData
             .map((el) => (
               <p
                 onClick={() => handlaChangeCountry(el)}
                 key={el}
-                className="bg-white cursor-pointer"
+                className="bg-white cursor-pointer flex items-center"
               >
+                <Location/>
                 {el}
               </p>
             ))
             .slice(0, 5)}
+          </div>
+          </div>
         </div>
         <div className="flex justify-center items-center absolute left-0 w-1/2 h-screen bg-gray-100 relative ">
           <div className="absolute top-[150px] left-[150px]">
@@ -123,6 +132,7 @@ function App() {
             </div>
             <div className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
               {celciusDay}
+              <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">o</sup>
             </div>
             <div>{typeOfWeatherDay}</div>
           </div>
@@ -136,6 +146,7 @@ function App() {
             </div>
             <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
               {celciusNight}
+              <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">o</sup>
             </div>
             <div>{typeOfWeatherNight}</div>
           </div>
