@@ -10,6 +10,7 @@ import Emoji from "./Emoji";
 import Loader from "./Skelton-Loader";
 import EmojiNight from "./EmojiNight";
 import Skeleton from "react-loading-skeleton";
+import Footer from "./Footer";
 //import countriesData from "./data";
 //import './App.css'
 
@@ -91,7 +92,7 @@ function App() {
 
   return (
     <>
-      <div className="flex justify-center items-start w-full h-screen bg-gray-800 relative">
+      <div className="flex justify-center items-start w-full h-screen bg-gray-900 relative">
         <div className="flex justify-center border-black absolute z-10 flex-col top-10">
           <div className="relative flex justify-center">
             <div className="absolute left-[-160px] z-10 top-4">
@@ -129,7 +130,7 @@ function App() {
 
           {/* <Loader/> */}
           </div>
-          <div className="w-1/2 h-4/5 bg-opacity-50 shadow-md rounded-md absolute z-10 backdrop-blur-sm p-10">
+          <div className="w-1/2 h-4/5 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
             <div>{moment().format("LL")}</div>
             <div className="flex mb-12">
               <h1 className="text-5xl h-2 font-extrabold text-grey-900 mb-12">
@@ -152,11 +153,14 @@ function App() {
             <div className="font-extrabold mb-12 h-6 text-indigo-400">
               {typeOfWeatherDay}
             </div>
+          <div className="mt-20">
+          <Footer/>
+          </div>
           </div>
         </div>
-        <div className="flex justify-center items-center absolute right-0 w-1/2 h-screen bg-gray-800 relative ">
-          <div className="w-1/2 h-4/5 bg-opacity-50 shadow-md rounded-md absolute z-10 backdrop-blur-sm p-10">
-            <div>{moment().format("LL")}</div>
+        <div className="flex justify-center items-center absolute right-0 w-1/2 h-screen bg-gray-900 relative ">
+          <div className="w-1/2 h-4/5 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
+            <div className="text-white">{moment().format("LL")}</div>
             <div className="flex mb-12">
               <h1 className="text-5xl h-2 font-extrabold text-gray-100 mb-12">
                 {weather}
@@ -178,8 +182,11 @@ function App() {
             <div className="font-extrabold mb-12 h-6 text-orange-500">
               {typeOfWeatherNight}
             </div>
+            <div className="mt-20">
+          <Footer />
           </div>
-          <div className="absolute bottom-[150px] right-[150px]">
+          </div>
+          <div className="absolute bottom-[70px] right-[230px]">
             <Ball />
           </div>
         </div>
@@ -188,9 +195,9 @@ function App() {
             <div className="rounded-full w-[600px] h-[600px] border border-grey-300 absolute z-1 flex justify-center items-center ">
               <div className="rounded-full w-[300px] h-[300px] border border-grey-300 absolute z-2 flex justify-center items-center">
                 <div className="w-[190px] h-[190px] flex justify-center items-center absolute right0 bg-gray-100 overflow-hidden">
-                  <div className="w-[150px] h-[135px] absolute bg-gray-800 rounded-full top-0 right-0 mt-[-88px] mr-[-52px]"></div>
-                  <div className="w-[150px] h-[135px] absolute bg-gray-800  rounded-full bottom-0 right-0 mb-[-88px] mr-[-52px]"></div>
-                  <div className="w-[70px] h-[135px] flex justify-end items-end bg-gray-800 absolute right-0"></div>
+                  <div className="w-[150px] h-[135px] absolute bg-gray-900 rounded-full top-0 right-0 mt-[-88px] mr-[-52px]"></div>
+                  <div className="w-[150px] h-[135px] absolute bg-gray-900  rounded-full bottom-0 right-0 mb-[-88px] mr-[-52px]"></div>
+                  <div className="w-[70px] h-[135px] flex justify-end items-end bg-gray-900 absolute right-0"></div>
                   <div className="rounded-full w-[130px] h-[130px] border border-grey-300 absolute z-1 flex justify-center items-center bg-gray-100 gap-4">
                     <Left />
                     <Right />

@@ -11,7 +11,7 @@ const Emoji = (props) => {
           return <img src="./public/partlyCloudyNight.png" />;
       case "Cloudy ":
           return <img src="./public/partlyCloudyNight.png" />;
-      case "Overcast":
+      case "Overcast ":
           return <img src="./public/partlyCloudyNight.png" />;
       case "Windy":
           return  <img src="./public/WindNight.png" />;
