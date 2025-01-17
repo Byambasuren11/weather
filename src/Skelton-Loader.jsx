@@ -3,7 +3,7 @@ import Skeleton from "react-loading-skeleton";
 const Loader = () => {
   return (
     <div>
-      <Skeleton style={{ width: "80px" }} />
+      <Skeleton style={{ width: "800px" }} />
     </div>
   );
 };

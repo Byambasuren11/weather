@@ -10,7 +10,7 @@ import Emoji from "./Emoji";
 import Loader from "./Skelton-Loader";
 import EmojiNight from "./EmojiNight";
 import Skeleton from "react-loading-skeleton";
-import Footer from "./Footer";
+// import Footer from "./Footer";
 //import countriesData from "./data";
 //import './App.css'
 
@@ -24,16 +24,17 @@ function App() {
   const [celciusDay, setCelcuisDay] = useState("0");
   const [celciusNight, setCelcuisNight] = useState("0");
   const [loading, setLoading]=useState(false);
+  const [air,setAir]=useState("0");
 
   const getCountries = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
         "https://countriesnow.space/api/v0.1/countries"
       );
       const result = await response.json();
       console.log("kk", result);
       const countries = result.data;
-
       const countriesData = countries.flatMap((c) =>
         c.cities.map((city) => `${city} , ${c.country}`)
       );
@@ -41,21 +42,39 @@ function App() {
     } catch (error) {
       console.log(error);
     }
+    finally{
+      setLoading(false);
+      setSearchValue("")
+    }
+    skeleton();
   };
+  const skeleton=(loading)=>{
 
+    if(loading===true){
+      console.log("It's working");
+      //<Skeleton/>
+    }
+    else{
+      console.log("It's not working");
+      
+    }
+  }
+console.log("loading:",loading)
   const weatherApiKey = "341c21a1a1764abcaab90621251501";
   const getWeather = async () => {
     try {
       const response = await fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${weather}`
+        `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${weather}&aqi=yes&alerts=yes`
       );
       const result = await response.json();
       const gradusDay = result.forecast.forecastday[0].hour[10].temp_c;
       const gradusNight = result.forecast.forecastday[0].hour[22].temp_c;
       const WeatherDay = result.forecast.forecastday[0].hour[10].condition.text;
-      const WeatherNight =
-        result.forecast.forecastday[0].hour[22].condition.text;
+      const WeatherNight =result.forecast.forecastday[0].hour[22].condition.text;
+      const airQuality=result.forecast.forecastday[0].day.air_quality.pm2_5;
       console.log("hoho", result);
+      console.log("pm2.5",airQuality);
+      setAir(airQuality);
       setCelcuisDay(gradusDay);
       setCelcuisNight(gradusNight);
       setTypeOfWeatherDay(WeatherDay);
@@ -83,6 +102,7 @@ function App() {
   useEffect(() => {
     getCountries();
     getWeather();
+    skeleton();
   }, [weather]);
 
   const handlaChangeCountry = (event) => {
@@ -153,8 +173,9 @@ function App() {
             <div className="font-extrabold mb-12 h-6 text-indigo-400">
               {typeOfWeatherDay}
             </div>
+            <div>{air}</div>
           <div className="mt-20">
-          <Footer/>
+          {/* <Footer/> */}
           </div>
           </div>
         </div>
@@ -183,7 +204,7 @@ function App() {
               {typeOfWeatherNight}
             </div>
             <div className="mt-20">
-          <Footer />
+          {/* <Footer /> */}
           </div>
           </div>
           <div className="absolute bottom-[70px] right-[230px]">

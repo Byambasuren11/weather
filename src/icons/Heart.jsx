@@ -1,5 +1,5 @@
 import * as React from "react";
-
+const {onClick}=props;
 const Heart = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
