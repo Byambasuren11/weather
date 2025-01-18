@@ -12,6 +12,7 @@ import EmojiNight from "./EmojiNight";
 import Skeleton from "react-loading-skeleton";
 import Footer from "./Footer";
 import Background from "./Background";
+import Air from "./Air-Quality";
 //import countriesData from "./data";
 //import './App.css'
 
@@ -170,14 +171,34 @@ function App() {
             <div className="flex justify-center">
               <Emoji typeOfWeatherDay={typeOfWeatherDay} />
             </div>
-            <div className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
-              {celciusDay}
-              <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
-                o
-              </sup>
-            </div>
-            <div className="font-extrabold mb-12 h-6 text-indigo-400">
-              {typeOfWeatherDay}
+            <div
+              onMouseEnter={setBlock}
+              onMouseOut={setBloc}
+              
+             >
+              {
+                blocks?(<div>
+                  <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
+                    {parseInt(air)}
+                  </div>
+                  <div className="font-extrabold mb-12 h-6 text-orange-500">
+                  <div className="text-black">Air quality</div>
+                    <Air air={air}/>
+                  </div>
+                </div>):(<div>
+                <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
+                  {celciusDay}
+                  <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
+                    o
+                  </sup>
+                </div>
+                <div className="font-extrabold mb-12 h-6 text-indigo-400">
+                  {typeOfWeatherDay}
+                </div>
+              </div>)
+              }
+              
+              
             </div>
             <div className="mt-20">
               <Footer />
@@ -212,7 +233,8 @@ function App() {
                     {parseInt(air)}
                   </div>
                   <div className="font-extrabold mb-12 h-6 text-orange-500">
-                    {typeOfWeatherNight}
+                    <div className="text-white">Air quality</div>
+                    <Air air={air}/>
                   </div>
                 </div>):(<div>
                 <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
