@@ -1,9 +1,9 @@
-import Skeleton from "react-loading-skeleton";
+//import Skeleton from "react-loading-skeleton";
 
 const Loader = () => {
   return (
-    <div>
-      <Skeleton style={{ width: "800px" }} />
+    <div className="w-[800px] h-[800px] absolute z-20">
+      hjfvjdhzb
     </div>
   );
 };

@@ -2,9 +2,11 @@ import Home from "./icons/Home";
 import Location from "./icons/location";
 import Heart from "./icons/Heart";
 import Person from "./icons/Person";
+//import Skeleton from "react-loading-skeleton";
+import Loader from "./Skelton-Loader";
 
 const onClick=()=>{
-  
+ console.log("hoho")
 }
 const Footer = (props) => {
   return (

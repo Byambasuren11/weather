@@ -10,7 +10,7 @@ import Emoji from "./Emoji";
 import Loader from "./Skelton-Loader";
 import EmojiNight from "./EmojiNight";
 import Skeleton from "react-loading-skeleton";
-// import Footer from "./Footer";
+import Footer from "./Footer";
 //import countriesData from "./data";
 //import './App.css'
 
@@ -52,7 +52,6 @@ function App() {
 
     if(loading===true){
       console.log("It's working");
-      //<Skeleton/>
     }
     else{
       console.log("It's not working");
@@ -161,7 +160,6 @@ console.log("loading:",loading)
               </div>
             </div>
             <div className="flex justify-center">
-              {/* <img src="./public/sunnyDay.png" /> */}
               <Emoji typeOfWeatherDay={typeOfWeatherDay} />
             </div>
             <div className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
@@ -175,7 +173,7 @@ console.log("loading:",loading)
             </div>
             <div>{air}</div>
           <div className="mt-20">
-          {/* <Footer/> */}
+          <Footer/>
           </div>
           </div>
         </div>
@@ -191,7 +189,6 @@ console.log("loading:",loading)
               </div>
             </div>
             <div className="flex justify-center">
-              {/* <img src="./public/sunnyNight.png" /> */}
               <EmojiNight typeOfWeatherNight={typeOfWeatherNight} />
             </div>
             <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
@@ -204,7 +201,7 @@ console.log("loading:",loading)
               {typeOfWeatherNight}
             </div>
             <div className="mt-20">
-          {/* <Footer /> */}
+          <Footer />
           </div>
           </div>
           <div className="absolute bottom-[70px] right-[230px]">
