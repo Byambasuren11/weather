@@ -18,13 +18,14 @@ function App() {
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [allCities, setAllCities] = useState([]);
-  const [weather, setWeather] = useState("Ulan Bator , Mongolia");
+  const [weather, setWeather] = useState("Ulan Bator");
   const [typeOfWeatherDay, setTypeOfWeatherDay] = useState("Sunny");
   const [typeOfWeatherNight, setTypeOfWeatherNight] = useState("Clear");
   const [celciusDay, setCelcuisDay] = useState("0");
   const [celciusNight, setCelcuisNight] = useState("0");
-  const [loading, setLoading]=useState(false);
-  const [air,setAir]=useState("0");
+  const [loading, setLoading] = useState(false);
+  const [air, setAir] = useState("0");
+  const [blocks, setBlocks] = useState(false);
 
   const getCountries = async () => {
     try {
@@ -41,24 +42,20 @@ function App() {
       setAllCities(countriesData);
     } catch (error) {
       console.log(error);
-    }
-    finally{
+    } finally {
       setLoading(false);
-      setSearchValue("")
+      setSearchValue("");
     }
     skeleton();
   };
-  const skeleton=(loading)=>{
-
-    if(loading===true){
+  const skeleton = (loading) => {
+    if (loading === true) {
       console.log("It's working");
-    }
-    else{
+    } else {
       console.log("It's not working");
-      
     }
-  }
-console.log("loading:",loading)
+  };
+  console.log("loading:", loading);
   const weatherApiKey = "341c21a1a1764abcaab90621251501";
   const getWeather = async () => {
     try {
@@ -69,10 +66,11 @@ console.log("loading:",loading)
       const gradusDay = result.forecast.forecastday[0].hour[10].temp_c;
       const gradusNight = result.forecast.forecastday[0].hour[22].temp_c;
       const WeatherDay = result.forecast.forecastday[0].hour[10].condition.text;
-      const WeatherNight =result.forecast.forecastday[0].hour[22].condition.text;
-      const airQuality=result.forecast.forecastday[0].day.air_quality.pm2_5;
+      const WeatherNight =
+        result.forecast.forecastday[0].hour[22].condition.text;
+      const airQuality = result.forecast.forecastday[0].day.air_quality.pm2_5;
       console.log("hoho", result);
-      console.log("pm2.5",airQuality);
+      console.log("pm2.5", airQuality);
       setAir(airQuality);
       setCelcuisDay(gradusDay);
       setCelcuisNight(gradusNight);
@@ -108,7 +106,17 @@ console.log("loading:",loading)
     let citiesName = event;
     setWeather(citiesName);
   };
-
+  const setBlock = () => {
+    console.log("hello");
+    let block = true;
+    console.log(block);
+    setBlocks(block);
+  };
+  const setBloc = () => {
+    let block = false;
+    setBlocks(block);
+  };
+  console.log("block", blocks);
   return (
     <>
       <div className="flex justify-center items-start w-full h-screen bg-gray-900 relative">
@@ -124,9 +132,9 @@ console.log("loading:",loading)
                 onChange={onChange}
                 className="h-20 w-[350px] rounded-[45px] py-[10px] px-[70px] text-3xl mb-[20px]"
               />
-                  <div className="bg-white rounded-2xl">
-              {filteredData
-                .map((el) => (
+              <div className="bg-white rounded-2xl">
+                {filteredData
+                  .map((el) => (
                     <p
                       onClick={() => handlaChangeCountry(el)}
                       key={el}
@@ -135,9 +143,9 @@ console.log("loading:",loading)
                       <Location />
                       {el}
                     </p>
-                ))
-                .slice(0, 4)}
-                </div>
+                  ))
+                  .slice(0, 4)}
+              </div>
             </div>
           </div>
         </div>
@@ -145,11 +153,8 @@ console.log("loading:",loading)
           <div className="absolute top-[150px] left-[150px]">
             <Ball2 />
           </div>
-          <div className="absolute z-20">
-
-          {/* <Loader/> */}
-          </div>
-          <div className="w-1/2 h-4/5 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
+          <div className="absolute z-20">{/* <Loader/> */}</div>
+          <div className="w-1/2 h-5/6 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
             <div>{moment().format("LL")}</div>
             <div className="flex mb-12">
               <h1 className="text-5xl h-2 font-extrabold text-grey-900 mb-12">
@@ -171,14 +176,13 @@ console.log("loading:",loading)
             <div className="font-extrabold mb-12 h-6 text-indigo-400">
               {typeOfWeatherDay}
             </div>
-            <div>{air}</div>
-          <div className="mt-20">
-          <Footer/>
-          </div>
+            <div className="mt-20">
+              <Footer />
+            </div>
           </div>
         </div>
         <div className="flex justify-center items-center absolute right-0 w-1/2 h-screen bg-gray-900 relative ">
-          <div className="w-1/2 h-4/5 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
+          <div className="w-1/2 h-5/6 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
             <div className="text-white">{moment().format("LL")}</div>
             <div className="flex mb-12">
               <h1 className="text-5xl h-2 font-extrabold text-gray-100 mb-12">
@@ -191,18 +195,37 @@ console.log("loading:",loading)
             <div className="flex justify-center">
               <EmojiNight typeOfWeatherNight={typeOfWeatherNight} />
             </div>
-            <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
-              {celciusNight}
-              <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
-                o
-              </sup>
-            </div>
-            <div className="font-extrabold mb-12 h-6 text-orange-500">
-              {typeOfWeatherNight}
+            <div
+              onMouseEnter={setBlock}
+              onMouseOut={setBloc}
+              
+             >
+              {
+                blocks?(<div>
+                  <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
+                    {parseInt(air)}
+                  </div>
+                  <div className="font-extrabold mb-12 h-6 text-orange-500">
+                    {typeOfWeatherNight}
+                  </div>
+                </div>):(<div>
+                <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
+                  {celciusNight}
+                  <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
+                    o
+                  </sup>
+                </div>
+                <div className="font-extrabold mb-12 h-6 text-orange-500">
+                  {typeOfWeatherNight}
+                </div>
+              </div>)
+              }
+              
+              
             </div>
             <div className="mt-20">
-          <Footer />
-          </div>
+              <Footer />
+            </div>
           </div>
           <div className="absolute bottom-[70px] right-[230px]">
             <Ball />
