@@ -1,20 +1,15 @@
 import { useEffect, useState } from "react";
-import Right from "./icons/Right-Pine-Cone-Logo";
-import Left from "./icons/Left-Pine-Cone-Logo";
 import Ball from "./icons/Ball";
 import Ball2 from "./icons/Ball2";
 import moment from "moment";
 import Location from "./icons/location";
 import Search from "./icons/Search";
 import Emoji from "./Emoji";
-import Loader from "./Skelton-Loader";
 import EmojiNight from "./EmojiNight";
-import Skeleton from "react-loading-skeleton";
 import Footer from "./Footer";
 import Background from "./Background";
 import Air from "./Air-Quality";
-//import countriesData from "./data";
-//import './App.css'
+import Loader from "./Skelton-Loader";
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
@@ -31,12 +26,10 @@ function App() {
 
   const getCountries = async () => {
     try {
-      setLoading(true);
       const response = await fetch(
         "https://countriesnow.space/api/v0.1/countries"
       );
       const result = await response.json();
-      console.log("kk", result);
       const countries = result.data;
       const countriesData = countries.flatMap((c) =>
         c.cities.map((city) => `${city} , ${c.country}`)
@@ -45,22 +38,13 @@ function App() {
     } catch (error) {
       console.log(error);
     } finally {
-      setLoading(false);
       setSearchValue("");
     }
-    skeleton();
   };
-  const skeleton = (loading) => {
-    if (loading === true) {
-      console.log("It's working");
-    } else {
-      console.log("It's not working");
-    }
-  };
-  console.log("loading:", loading);
   const weatherApiKey = "341c21a1a1764abcaab90621251501";
   const getWeather = async () => {
     try {
+      setLoading(true);
       const response = await fetch(
         `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${weather}&aqi=yes&alerts=yes`
       );
@@ -71,8 +55,6 @@ function App() {
       const WeatherNight =
         result.forecast.forecastday[0].hour[22].condition.text;
       const airQuality = result.forecast.forecastday[0].day.air_quality.pm2_5;
-      console.log("hoho", result);
-      console.log("pm2.5", airQuality);
       setAir(airQuality);
       setCelcuisDay(gradusDay);
       setCelcuisNight(gradusNight);
@@ -80,6 +62,8 @@ function App() {
       setTypeOfWeatherNight(WeatherNight);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,7 +85,6 @@ function App() {
   useEffect(() => {
     getCountries();
     getWeather();
-    skeleton();
   }, [weather]);
 
   const handlaChangeCountry = (event) => {
@@ -109,19 +92,34 @@ function App() {
     setWeather(citiesName);
   };
   const setBlock = () => {
-    console.log("hello");
     let block = true;
-    console.log(block);
     setBlocks(block);
   };
   const setBloc = () => {
     let block = false;
     setBlocks(block);
   };
-  console.log("block", blocks);
   return (
     <>
-
+      {loading && (
+        <div className="flex justify-center items-start w-full h-screen bg-gray-900 relative">
+          <div className="flex justify-center items-center absolute left-0 w-1/2 h-screen bg-gray-100 relative ">
+            <div className="w-1/2 h-5/6 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
+              <div className="flex justify-center items-center h-full">
+                <Loader />
+              </div>
+            </div>
+          </div>
+          <div className="flex justify-center items-center absolute right-0 w-1/2 h-screen bg-gray-900 relative ">
+            <div className="w-1/2 h-5/6 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
+              <div className="flex justify-center items-center h-full">
+                <Loader />
+              </div>
+            </div>
+          </div>
+          <Background />
+        </div>
+      )}
 
       <div className="flex justify-center items-start w-full h-screen bg-gray-900 relative">
         <div className="flex justify-center border-black absolute z-10 flex-col top-10">
@@ -153,11 +151,12 @@ function App() {
             </div>
           </div>
         </div>
+
         <div className="flex justify-center items-center absolute left-0 w-1/2 h-screen bg-gray-100 relative ">
           <div className="absolute top-[150px] left-[150px]">
             <Ball2 />
           </div>
-          <div className="absolute z-20">{/* <Loader/> */}</div>
+          <div className="absolute z-20"></div>
           <div className="w-1/2 h-5/6 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
             <div>{moment().format("LL")}</div>
             <div className="flex mb-12">
@@ -171,43 +170,37 @@ function App() {
             <div className="flex justify-center">
               <Emoji typeOfWeatherDay={typeOfWeatherDay} />
             </div>
-            <div
-              onMouseEnter={setBlock}
-              onMouseOut={setBloc}
-              
-             >
-              {
-                blocks?(<div>
+            <div onMouseEnter={setBlock} onMouseOut={setBloc}>
+              {blocks ? (
+                <div>
                   <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
                     {parseInt(air)}
                   </div>
-                  <div className="font-extrabold mb-12 h-6 text-orange-500">
-                  <div className="text-black">Air quality</div>
-                    <Air air={air}/>
+                  <div className="font-extrabold mb-12 h-6 text-indigo-400">
+                    <div className="text-black">Air quality</div>
+                    <Air air={air} />
                   </div>
-                </div>):(<div>
-                <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
-                  {celciusDay}
-                  <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
-                    o
-                  </sup>
                 </div>
-                <div className="font-extrabold mb-12 h-6 text-indigo-400">
-                  {typeOfWeatherDay}
+              ) : (
+                <div>
+                  <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
+                    {celciusDay}
+                    <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
+                      o
+                    </sup>
+                  </div>
+                  <div className="font-extrabold mb-12 h-6 text-indigo-400">
+                    {typeOfWeatherDay}
+                  </div>
                 </div>
-              </div>)
-              }
-              
-              
+              )}
             </div>
             <div className="mt-20">
               <Footer />
             </div>
           </div>
         </div>
-        
-        
-        
+
         <div className="flex justify-center items-center absolute right-0 w-1/2 h-screen bg-gray-900 relative ">
           <div className="w-1/2 h-5/6 bg-opacity-50 shadow-md rounded-2xl absolute z-10 backdrop-blur-sm p-10">
             <div className="text-white">{moment().format("LL")}</div>
@@ -222,34 +215,30 @@ function App() {
             <div className="flex justify-center">
               <EmojiNight typeOfWeatherNight={typeOfWeatherNight} />
             </div>
-            <div
-              onMouseEnter={setBlock}
-              onMouseOut={setBloc}
-              
-             >
-              {
-                blocks?(<div>
+            <div onMouseEnter={setBlock} onMouseOut={setBloc}>
+              {blocks ? (
+                <div>
                   <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
                     {parseInt(air)}
                   </div>
                   <div className="font-extrabold mb-12 h-6 text-orange-500">
                     <div className="text-white">Air quality</div>
-                    <Air air={air}/>
+                    <Air air={air} />
                   </div>
-                </div>):(<div>
-                <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
-                  {celciusNight}
-                  <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
-                    o
-                  </sup>
                 </div>
-                <div className="font-extrabold mb-12 h-6 text-orange-500">
-                  {typeOfWeatherNight}
+              ) : (
+                <div>
+                  <div className="text-[110px]  bg-gradient-to-b from-white to-black bg-clip-text font-extrabold text-transparent">
+                    {celciusNight}
+                    <sup className="text-[110px]  bg-gradient-to-b from-black to-white bg-clip-text font-extrabold text-transparent">
+                      o
+                    </sup>
+                  </div>
+                  <div className="font-extrabold mb-12 h-6 text-orange-500">
+                    {typeOfWeatherNight}
+                  </div>
                 </div>
-              </div>)
-              }
-              
-              
+              )}
             </div>
             <div className="mt-20">
               <Footer />
@@ -259,7 +248,7 @@ function App() {
             <Ball />
           </div>
         </div>
-        <Background/>
+        <Background />
       </div>
     </>
   );
