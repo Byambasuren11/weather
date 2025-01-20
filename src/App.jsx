@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import Ball from "./icons/Ball";
 import Ball2 from "./icons/Ball2";
 import moment from "moment";
-import Location from "./icons/location";
+import Location from "./icons/Location";
 import Search from "./icons/Search";
 import Emoji from "./Emoji";
 import EmojiNight from "./EmojiNight";

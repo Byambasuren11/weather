@@ -1,5 +1,5 @@
 import Home from "./icons/Home";
-import Location from "./icons/location";
+import Location from "./icons/Location";
 import Heart from "./icons/Heart";
 import Person from "./icons/Person";
 //import Skeleton from "react-loading-skeleton";

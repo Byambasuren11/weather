@@ -1,6 +1,5 @@
 const Emoji = (props) => {
   const { typeOfWeatherDay } = props;
-  
   switch (typeOfWeatherDay) {
     case "Sunny":
       return <img className="w-[400px]" src="./public/sunnyDay.webp" />;
